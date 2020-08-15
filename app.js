@@ -6,6 +6,7 @@ const authRouter = require("./routes/authRouter");
 
 // middleware
 app.use(express.static("public"));
+app.use(express.json());
 
 // view engine
 app.set("view engine", "ejs");
