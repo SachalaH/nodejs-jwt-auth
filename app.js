@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const app = express();
+const authRouter = require("./routes/authRouter");
 
 // middleware
 app.use(express.static("public"));
@@ -24,3 +25,4 @@ mongoose
 // routes
 app.get("/", (req, res) => res.render("home"));
 app.get("/smoothies", (req, res) => res.render("smoothies"));
+app.use(authRouter);
