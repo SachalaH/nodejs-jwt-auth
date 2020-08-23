@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 // Error handling
 const handleErrors = (err) => {
@@ -9,6 +10,7 @@ const handleErrors = (err) => {
     errors.email = "That email is already registered";
     return errors;
   }
+
   // validation errors
   if (err.message.includes("user validation failed")) {
     Object.values(err.errors).forEach(({ properties }) => {
@@ -17,6 +19,11 @@ const handleErrors = (err) => {
     });
   }
   return errors;
+};
+// Creating a json web token
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+  return jwt.sign({ id }, "Harsh 1421 @#$", { expiresIn: maxAge });
 };
 
 module.exports.getSignup = (req, res) => {
@@ -29,6 +36,11 @@ module.exports.postSignup = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.create({ email, password });
+    const token = createToken(user._id);
+    res.cookie("jwt", token, {
+      maxAge: maxAge * 1000,
+      httpOnly: true,
+    });
     res.status(201).json(user);
   } catch (error) {
     const errors = handleErrors(error);
