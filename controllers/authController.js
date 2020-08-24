@@ -41,7 +41,7 @@ module.exports.postSignup = async (req, res) => {
       maxAge: maxAge * 1000,
       httpOnly: true,
     });
-    res.status(201).json(user);
+    res.status(201).json({ user: user._id });
   } catch (error) {
     const errors = handleErrors(error);
     res.status(400).json({ errors });
