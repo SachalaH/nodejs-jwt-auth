@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const authRouter = require("./routes/authRouter");
 const { requireAuth } = require("./middlewares/authMiddleware");
+require("dotenv").config();
 
 // middleware
 app.use(express.static("public"));
@@ -14,8 +15,7 @@ app.use(cookieParser());
 app.set("view engine", "ejs");
 
 // database connection
-const dbURI =
-  "mongodb+srv://stark:jwtStark1421@cluster0.smaoj.mongodb.net/jwt-auth";
+const dbURI = process.env.MONGO_URI;
 mongoose
   .connect(dbURI, {
     useNewUrlParser: true,
