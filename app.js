@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const app = express();
 const authRouter = require("./routes/authRouter");
+const { requireAuth } = require("./middlewares/authMiddleware");
 
 // middleware
 app.use(express.static("public"));
@@ -26,5 +27,5 @@ mongoose
 
 // routes
 app.get("/", (req, res) => res.render("home"));
-app.get("/smoothies", (req, res) => res.render("smoothies"));
+app.get("/smoothies", requireAuth, (req, res) => res.render("smoothies"));
 app.use(authRouter);
