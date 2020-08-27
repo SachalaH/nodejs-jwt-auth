@@ -23,7 +23,7 @@
     e.preventDefault();
     const email = form.email.value;
     const password = form.password.value;
-    // console.log(email, password);
+
     // Reset errors
     emailError.textContent = "";
     passwordError.textContent = "";
@@ -39,11 +39,10 @@
         passwordError.textContent = data.errors.password;
       }
       if (data.user) {
-        // location.assign("/");
-        console.log(data.user);
+        location.assign("/");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   });
 </script>
