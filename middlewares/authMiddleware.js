@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 require("dotenv").config();
 
 const requireAuth = (req, res, next) => {
@@ -20,16 +21,15 @@ const requireAuth = (req, res, next) => {
 };
 
 // Checking for the current user
-const checkCurrentUser = (res, req, next) => {
+const checkCurrentUser = (req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
       if (err) {
-        console.log(err);
         res.locals.user = null;
         next();
       } else {
-        const user = await User.findByID(decodedToken.id);
+        const user = await User.findById(decodedToken.id);
         res.locals.user = user;
         next();
       }
